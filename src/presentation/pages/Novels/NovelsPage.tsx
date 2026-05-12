@@ -20,8 +20,8 @@ export const NovelsPage = () => {
     <div className={styles.page}>
       <CategoryIntro
         eyebrow="Novelas"
-        title="Narrativas serializadas con estructura estable."
-        description="La vista agrupa capítulos a partir de metadata, no por acoplamiento con la UI. El backend podrá entregar la misma forma sin alterar las páginas."
+        title="El alma del escritor vive en sus textos"
+        description="Espero encuentres en estas paginas algo que para ti valga la pena leer, pues aqui encontraras un parte de mi que se esfuerza por ser escuchada."
       />
 
       <section className={styles.list}>

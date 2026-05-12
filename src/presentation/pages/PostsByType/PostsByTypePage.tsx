@@ -13,7 +13,7 @@ interface PostsByTypePageProps {
 const copyMap: Record<PostType, { eyebrow: string; title: string; description: string }> = {
   poema: {
     eyebrow: 'Poemas',
-    title: 'Hacer versos malos depara más felicidad que leer los versos más bellos.--Herman Hesse',
+    title: 'Hacer versos malos depara más felicidad que leer los versos más bellos.  - Herman Hesse',
     description: 'El ser humano encuentra sentido a la vida a través de los sentimientos y las emociones. El amor, el odio, la tristeza, la melancolía… emociones que dan sustancia a cada una de nuestras acciones. Y eso es la poesía: la expresión íntima y bella de todo cuanto se siente.',
   },
   reflexion: {
