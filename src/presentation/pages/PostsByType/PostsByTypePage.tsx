@@ -18,8 +18,8 @@ const copyMap: Record<PostType, { eyebrow: string; title: string; description: s
   },
   reflexion: {
     eyebrow: 'Reflexiones',
-    title: 'Ensayos y pensamientos abiertos.',
-    description: 'Textos donde la observación personal y la memoria dialogan con el presente.',
+    title: 'Reflexionar es no perder la capacidad de asombro',
+    description: 'Haz tuyo el conocimiento y el entendimiento. Solo cuando nos permitimos hacer una pausa en medio de este mundo ajetreado, logramos asimilar verdaderamente lo aprendido y desarrollar una postura crítica frente a lo vivido.',
   },
   novela: {
     eyebrow: 'Novelas',
