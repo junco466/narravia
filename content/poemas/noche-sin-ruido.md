@@ -1,10 +1,10 @@
 ---
 title: "En la superficie"
-date: "2026-04-12"
+date: "2026-05-11"
 type: "poema"
-excerpt: "Un poema breve sobre la casa cuando todos duermen y el reloj parece pensar en voz baja."
-coverQuote: "La noche no calla: apenas cambia de volumen."
-seoDescription: "Poema sobre el silencio nocturno y la respiración doméstica."
+excerpt: "Un cuerpo obligado a caminar de día, una mente que añora la calma de la noche;"
+coverQuote: "Deleitandose en el sinsentido"
+seoDescription: "Poema sobre el absurdo y lo complejo de la vida"
 ---
 
 Hoy vi caer la mañana
