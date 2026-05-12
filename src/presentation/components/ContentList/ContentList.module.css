@@ -1,0 +1,13 @@
+.section {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.title {
+  font-size: 1.3rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.25rem;
+}

@@ -1,0 +1,33 @@
+.page {
+  width: min(780px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.eyebrow {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.75rem;
+}
+
+.title {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  line-height: 1;
+}
+
+.card {
+  padding: 2rem;
+  border-radius: 28px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-elevated);
+  color: var(--text-secondary);
+  display: grid;
+  gap: 1rem;
+}
+
+.list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
