@@ -13,18 +13,18 @@ interface PostsByTypePageProps {
 const copyMap: Record<PostType, { eyebrow: string; title: string; description: string }> = {
   poema: {
     eyebrow: 'Poemas',
-    title: 'Textos breves con emociones fuertes',
-    description: 'Una colección de piezas para parar la vida por un minuto',
+    title: 'Hacer versos malos depara más felicidad que leer los versos más bellos.--Herman Hesse',
+    description: 'El ser humano encuentra sentido a la vida a través de los sentimientos y las emociones. El amor, el odio, la tristeza, la melancolía… emociones que dan sustancia a cada una de nuestras acciones. Y eso es la poesía: la expresión íntima y bella de todo cuanto se siente.',
   },
   reflexion: {
     eyebrow: 'Reflexiones',
-    title: 'Ensayos íntimos y pensamientos abiertos.',
+    title: 'Ensayos y pensamientos abiertos.',
     description: 'Textos donde la observación personal y la memoria dialogan con el presente.',
   },
   novela: {
     eyebrow: 'Novelas',
-    title: 'Historias extensas, construidas capítulo a capítulo.',
-    description: 'Narrativas serializadas con estructura preparada para crecer sin alterar la UI.',
+    title: 'El alma del escritor vive en sus textos',
+    description: 'Espero encuentres en estas paginas algo que para ti valga la pena leer, pues aqui encontraras un parte de mi que se esfuerza por ser escuchada.',
   },
 };
 
