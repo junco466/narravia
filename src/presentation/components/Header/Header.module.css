@@ -22,6 +22,11 @@
   flex-direction: column;
   gap: 0.15rem;
   text-decoration: none;
+
+}
+
+.logo{
+  width: 12rem;
 }
 
 .brandOverline {

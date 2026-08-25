@@ -1,6 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { ThemeToggle } from '@/presentation/components/ThemeToggle/ThemeToggle';
 import styles from '@/presentation/components/Header/Header.module.css';
+import logo_dark from '@/assets/logo_dark.svg';
+import logo_light from '@/assets/logo_light.svg';
+import { useThemeStore } from '@/presentation/hooks/useThemeStore';
+
 
 const navigation = [
   { label: 'Inicio', to: '/' },
@@ -12,12 +16,14 @@ const navigation = [
 ];
 
 export const Header = () => {
+  const theme = useThemeStore((state) => state.theme);
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
         <NavLink to="/" className={styles.brand}>
-          <span className={styles.brandOverline}>Cuaderno de</span>
-          <span className={styles.brandTitle}>Medianoche</span>
+          {/* <span className={styles.brandOverline}>Cuaderno de</span>
+          <span className={styles.brandTitle}>Medianoche</span> */}
+          {theme === 'light' ? <img src={logo_light} alt="Logo" className={styles.logo}/> : <img src={logo_dark} alt="Logo" className={styles.logo}/> }
         </NavLink>
 
         <nav className={styles.nav} aria-label="Navegación principal">
