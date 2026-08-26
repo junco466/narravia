@@ -9,6 +9,12 @@
   --border-strong: rgba(68, 54, 45, 0.25);
   --accent: #7a503f;
   --accent-soft: rgba(122, 80, 63, 0.22);
+  --accent-2: #3f5a54;
+  --accent-2-soft: rgba(63, 90, 84, 0.2);
+  --accent-3: #7a4a5f;
+  --accent-3-soft: rgba(122, 74, 95, 0.2);
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-body: 'Literata', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
   color-scheme: light;
 }
 
@@ -23,6 +29,10 @@
   --border-strong: rgba(241, 232, 222, 0.18);
   --accent: #d7ab7d;
   --accent-soft: rgba(215, 171, 125, 0.18);
+  --accent-2: #8fc2b6;
+  --accent-2-soft: rgba(143, 194, 182, 0.18);
+  --accent-3: #d19cb6;
+  --accent-3-soft: rgba(209, 156, 182, 0.18);
   color-scheme: dark;
 }
 
@@ -38,7 +48,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text-primary);
-  font-family: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  font-family: var(--font-body);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -79,6 +89,14 @@ ul,
 ol,
 blockquote {
   margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
 }
 
 #root {

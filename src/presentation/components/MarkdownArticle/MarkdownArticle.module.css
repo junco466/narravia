@@ -5,6 +5,10 @@
   gap: 2rem;
 }
 
+.articlePoem {
+  width: min(920px, 100%);
+}
+
 .header {
   display: grid;
   gap: 1rem;
@@ -15,10 +19,18 @@
 .meta {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 1rem;
   color: var(--text-muted);
   font-size: 0.92rem;
-  text-transform: capitalize;
+}
+
+.typeTag {
+  color: var(--article-accent, var(--accent));
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .title {
@@ -27,11 +39,25 @@
 }
 
 .quote {
+  position: relative;
   margin: 0;
-  padding-left: 1.25rem;
-  border-left: 2px solid var(--accent-soft);
+  padding: 0.25rem 0 0.25rem 2rem;
+  border-left: 2px solid var(--article-accent, var(--accent));
   color: var(--text-secondary);
+  font-family: var(--font-display);
   font-style: italic;
+  font-size: 1.2rem;
+}
+
+.quoteMark {
+  position: absolute;
+  left: 0.35rem;
+  top: -0.5rem;
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-style: normal;
+  color: var(--article-accent, var(--accent));
+  opacity: 0.5;
 }
 
 .body {
@@ -54,6 +80,73 @@
 .body :global(ol),
 .body :global(blockquote) {
   margin: 0 0 1.35rem;
+}
+
+.body:not(.poemBody) :global(p):first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-size: 3.6rem;
+  line-height: 0.85;
+  padding: 0.1rem 0.5rem 0 0;
+  color: var(--article-accent, var(--accent));
+}
+
+.poemPage {
+  position: relative;
+  padding: 2.5rem clamp(1.5rem, 4vw, 3rem);
+  border-radius: 12px;
+  border: 1px solid var(--border-soft);
+  background-color: var(--surface-elevated);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(2.5rem - 1px),
+    var(--border-soft) calc(2.5rem - 1px),
+    var(--border-soft) 2.5rem
+  );
+  background-position: 0 0.6rem;
+  box-shadow: 0 24px 48px -36px rgba(0, 0, 0, 0.4);
+}
+
+.poemGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 3rem;
+}
+
+.poemBody {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 2.5rem;
+  letter-spacing: 0.01em;
+}
+
+.poemColumn {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.poemColumn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--article-accent, var(--accent));
+  opacity: 0.35;
+}
+
+.poemBody :global(p) {
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 760px) {
+  .poemGrid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
 }
 
 .body :global(blockquote) {

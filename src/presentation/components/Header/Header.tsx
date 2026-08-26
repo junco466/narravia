@@ -1,10 +1,12 @@
-import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { ThemeToggle } from '@/presentation/components/ThemeToggle/ThemeToggle';
 import styles from '@/presentation/components/Header/Header.module.css';
 import logo_dark from '@/assets/logo_dark.svg';
 import logo_light from '@/assets/logo_light.svg';
+import logo_nombre_dark from '@/assets/logo_nombre_dark.svg';
+import logo_nombre_light from '@/assets/logo_nombre_light.svg';
 import { useThemeStore } from '@/presentation/hooks/useThemeStore';
-
 
 const navigation = [
   { label: 'Inicio', to: '/' },
@@ -17,16 +19,34 @@ const navigation = [
 
 export const Header = () => {
   const theme = useThemeStore((state) => state.theme);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
         <NavLink to="/" className={styles.brand}>
-          {/* <span className={styles.brandOverline}>Cuaderno de</span>
-          <span className={styles.brandTitle}>Medianoche</span> */}
-          {theme === 'light' ? <img src={logo_light} alt="Logo" className={styles.logo}/> : <img src={logo_dark} alt="Logo" className={styles.logo}/> }
+          <img
+            src={theme === 'light' ? logo_nombre_light : logo_nombre_dark}
+            alt="Narravia"
+            className={`${styles.logo} ${styles.logoDesktop}`}
+          />
+          <img
+            src={theme === 'light' ? logo_light : logo_dark}
+            alt="Narravia"
+            className={`${styles.logo} ${styles.logoMobile}`}
+          />
         </NavLink>
 
-        <nav className={styles.nav} aria-label="Navegación principal">
+        <nav
+          id="primary-navigation"
+          className={`${styles.nav} ${isMenuOpen ? styles.navOpen : ''}`.trim()}
+          aria-label="Navegación principal"
+        >
           {navigation.map((item) => (
             <NavLink
               key={item.to}
@@ -38,7 +58,19 @@ export const Header = () => {
           ))}
         </nav>
 
-        <ThemeToggle />
+        <div className={styles.controls}>
+          <ThemeToggle />
+          <button
+            type="button"
+            className={styles.menuToggle}
+            aria-expanded={isMenuOpen}
+            aria-controls="primary-navigation"
+            aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            onClick={() => setIsMenuOpen((open) => !open)}
+          >
+            <span className={`${styles.menuIcon} ${isMenuOpen ? styles.menuIconOpen : ''}`.trim()} />
+          </button>
+        </div>
       </div>
     </header>
   );

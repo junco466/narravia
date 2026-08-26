@@ -30,7 +30,7 @@ export const NovelDetailPage = () => {
     <div className={styles.page}>
       <aside className={styles.sidebar}>
         <Link className={styles.back} to="/novelas">
-          ← Volver a novelas
+          <span aria-hidden="true">&larr;</span> Volver a novelas
         </Link>
         <p className={styles.eyebrow}>Novela</p>
         <h1 className={styles.title}>{novel.seriesTitle}</h1>
