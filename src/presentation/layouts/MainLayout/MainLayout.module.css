@@ -5,7 +5,7 @@
 }
 
 .main {
-  width: min(1120px, calc(100% - 3rem));
+  width: min(1080px, calc(100% - 4rem));
   margin: 0 auto;
   padding: 2rem 0 5rem;
   flex: 1;
@@ -13,7 +13,7 @@
 
 @media (max-width: 768px) {
   .main {
-    width: min(100%, calc(100% - 1.5rem));
+    width: min(100%, calc(100% - 2.5rem));
     padding-top: 1.5rem;
   }
 }
