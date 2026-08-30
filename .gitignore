@@ -67,4 +67,3 @@ docker-compose.override.yml
 *.local
 
 .claude/
-narrabia-next

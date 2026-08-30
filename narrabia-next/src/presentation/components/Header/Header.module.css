@@ -1,0 +1,193 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(18px);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  border-bottom: 1px solid var(--border-soft);
+  align-items: center;
+}
+
+.inner {
+  width: min(1080px, calc(100% - 4rem));
+  margin: 0 auto;
+  min-height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.brand {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-decoration: none;
+}
+
+.logo {
+  width: 12rem;
+}
+
+.logoMobile {
+  display: none;
+  width: 2.75rem;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.menuToggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: var(--surface-elevated);
+  cursor: pointer;
+}
+
+.menuIcon,
+.menuIcon::before,
+.menuIcon::after {
+  display: block;
+  width: 1.1rem;
+  height: 1px;
+  background: var(--text-primary);
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+.menuIcon {
+  position: relative;
+}
+
+.menuIcon::before,
+.menuIcon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+
+.menuIcon::before {
+  top: -0.4rem;
+}
+
+.menuIcon::after {
+  top: 0.4rem;
+}
+
+.menuIconOpen {
+  background: transparent;
+}
+
+.menuIconOpen::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.menuIconOpen::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 2.2rem;
+}
+
+.link {
+  position: relative;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.98rem;
+  padding-bottom: 0.15rem;
+  transition: color 180ms ease;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.15rem;
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: center;
+  background: var(--accent);
+  transition: transform 180ms ease;
+}
+
+.link:hover,
+.active {
+  color: var(--text-primary);
+}
+
+.link:hover::after,
+.active::after {
+  transform: scaleX(1);
+}
+
+@media (max-width: 900px) {
+  .inner {
+    flex-wrap: wrap;
+    min-height: 72px;
+    gap: 0;
+    padding: 1rem 0;
+    align-items: center;
+  }
+
+  .logoDesktop {
+    display: none;
+  }
+
+  .logoMobile {
+    display: block;
+  }
+
+  .controls {
+    gap: 1rem;
+  }
+
+  .menuToggle {
+    display: inline-flex;
+  }
+
+  .nav {
+    order: 3;
+    flex-basis: 100%;
+    display: grid;
+    gap: 0;
+    justify-content: stretch;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 260ms ease, opacity 200ms ease;
+  }
+
+  .navOpen {
+    max-height: 24rem;
+    opacity: 1;
+    padding: 0.75rem 0 0.5rem;
+  }
+
+  .link {
+    padding: 0.95rem 0.75rem;
+    border-top: 1px solid var(--border-soft);
+    font-size: 1.05rem;
+  }
+
+  .link::after {
+    display: none;
+  }
+
+  .active {
+    color: var(--accent);
+  }
+}

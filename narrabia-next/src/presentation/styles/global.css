@@ -1,0 +1,104 @@
+:root {
+  --bg: #f7f2ea;
+  --surface: rgba(247, 242, 234, 0.94);
+  --surface-elevated: #fbf8f2;
+  --text-primary: #231d1a;
+  --text-secondary: #554941;
+  --text-muted: #7f6f65;
+  --border-soft: rgba(68, 54, 45, 0.12);
+  --border-strong: rgba(68, 54, 45, 0.25);
+  --accent: #7a503f;
+  --accent-soft: rgba(122, 80, 63, 0.22);
+  --accent-2: #3f5a54;
+  --accent-2-soft: rgba(63, 90, 84, 0.2);
+  --accent-3: #7a4a5f;
+  --accent-3-soft: rgba(122, 74, 95, 0.2);
+  --font-display: var(--font-fraunces), 'Iowan Old Style', Georgia, serif;
+  --font-body: var(--font-literata), 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #171412;
+  --surface: rgba(23, 20, 18, 0.88);
+  --surface-elevated: #1f1b18;
+  --text-primary: #f1e8de;
+  --text-secondary: #d4c6b8;
+  --text-muted: #a89788;
+  --border-soft: rgba(241, 232, 222, 0.1);
+  --border-strong: rgba(241, 232, 222, 0.18);
+  --accent: #d7ab7d;
+  --accent-soft: rgba(215, 171, 125, 0.18);
+  --accent-2: #8fc2b6;
+  --accent-2-soft: rgba(143, 194, 182, 0.18);
+  --accent-3: #d19cb6;
+  --accent-3-soft: rgba(209, 156, 182, 0.18);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top left, rgba(122, 80, 63, 0.08), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(122, 80, 63, 0.05), transparent 32%);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a,
+button {
+  transition: opacity 180ms ease, transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+blockquote {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+#root {
+  isolation: isolate;
+}
