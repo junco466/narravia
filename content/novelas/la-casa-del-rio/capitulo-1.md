@@ -1,14 +1,16 @@
 ---
-title: "I"
+title: "La montaña de los sabios parte 1"
 date: "2026-05-24"
 type: "novela"
 seriesSlug: "despertando"
 seriesTitle: "Despertando"
 chapterNumber: 1
-chapterTitle: "I"
+chapterTitle: "La montaña de los sabios parte 1"
 excerpt: ""
 coverQuote: ""
 ---
+
+# I
 
 Luego de una larga travesía, Yaniwa y Canú se encontraron en lo alto de la montaña Kanarù, en el templo de los sabios. Allí los esperaba una anciana, sentada al filo de la montaña, cuya mirada sobrenatural escrutaba el horizonte como si pudiera ver más allá de este mundo. Inmóvil e impasible, reposaba en un antiguo sillón tejido de ramas antiguas y flores silvestres. Con un movimiento deliberado, giro su cabeza hacia sus visitantes. De repente, ambos jóvenes fueron invadidos por un intenso calor que se expandía por el interior de sus cráneos. Cada respiración avivaba esta sensación, como si una llama invisible trazara un camino ardiente desde sus fosas nasales hasta la parte posterior de sus cabezas, era como si la vida misma fluyera hacia su interior, despertando cada fibra de su ser. De repente escucharon una dulce voz al interior de su cabeza, como si un pensamiento fugaz atravesara sus mentes.
 

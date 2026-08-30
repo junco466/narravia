@@ -65,3 +65,6 @@ docker-compose.override.yml
 
 # Misc
 *.local
+
+.claude/
+narrabia-next
