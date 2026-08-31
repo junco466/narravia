@@ -42,7 +42,16 @@ async function main() {
         chapterNumber: post.chapterNumber,
         chapterTitle: post.chapterTitle,
         seoDescription: post.seoDescription,
+        // Solo al CREAR: el contenido que ya vivía en content/ estaba
+        // realmente en vivo en el sitio, así que nace "published", no
+        // "draft" (el default para posts nuevos creados desde el
+        // Admin). tags vacío porque el frontmatter no tenía ese campo.
+        status: 'published',
+        tags: [],
       },
+      // A propósito NO se toca status/tags aquí: si vuelves a correr
+      // este script (por ejemplo tras editar un .md), no queremos
+      // pisar un estado que hayas cambiado a mano desde el Admin.
       update: {
         title: post.title,
         type: post.type,

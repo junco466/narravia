@@ -120,6 +120,12 @@ const toPost = (path: string, rawMarkdown: string): Post => {
     chapterNumber: metadata.chapterNumber,
     chapterTitle: metadata.chapterTitle,
     seoDescription: metadata.seoDescription,
+    // Los .md no tienen estos campos — solo existen desde el Admin.
+    // El migrateContentToDb.ts es quien realmente decide "published"
+    // para el contenido que ya estaba en vivo; esto es solo para
+    // que el tipo Post quede completo mientras tanto.
+    status: 'published',
+    tags: [],
     ...seriesMetadata,
   };
 };

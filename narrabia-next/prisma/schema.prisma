@@ -26,6 +26,14 @@ enum PostType {
   novela
 }
 
+// "draft" por defecto a propósito: un post nuevo no debería quedar
+// visible en el sitio público hasta que tú decidas publicarlo. Es más
+// seguro equivocarse por "no se ve" que por "se publicó sin querer".
+enum PostStatus {
+  draft
+  published
+}
+
 // Cada campo de aquí corresponde 1:1 a la interfaz Post que ya conoces
 // (src/domain/models/post.ts). El "?" en Prisma significa lo mismo que
 // en TypeScript: la columna puede ser NULL (opcional).
@@ -49,9 +57,17 @@ model Post {
   chapterTitle   String?
   seoDescription String?
 
+  // Nuevos para el panel de Admin. tags usa el tipo array nativo de
+  // Postgres (String[]) — sin tabla aparte, porque no necesitamos
+  // filtrar/reusar tags entre posts, solo mostrarlos como etiquetas.
+  status PostStatus @default(draft)
+  tags   String[]   @default([])
+
   // Los indices aceleran las consultas mas frecuentes: filtrar por tipo
-  // (/poemas, /reflexiones) y agrupar capitulos de una misma novela.
+  // (/poemas, /reflexiones), por estado (ocultar borradores), y
+  // agrupar capitulos de una misma novela.
   @@index([type])
+  @@index([status])
   @@index([seriesSlug])
   @@map("posts")
 }

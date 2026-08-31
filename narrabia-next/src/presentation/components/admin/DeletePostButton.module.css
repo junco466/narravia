@@ -1,0 +1,15 @@
+.button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: transparent;
+  color: var(--accent-3);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.button:hover {
+  border-color: var(--accent-3);
+  background: var(--accent-3-soft);
+}
