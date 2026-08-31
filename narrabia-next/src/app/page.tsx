@@ -13,6 +13,15 @@ import { ContentList } from '@/presentation/components/ContentList/ContentList';
 import { PostCard } from '@/presentation/components/PostCard/PostCard';
 import styles from './page.module.css';
 
+// Sin esto, Next intenta generar esta pagina como HTML fijo durante el
+// build (leyendo la base de datos EN ESE MOMENTO) — y el build no tiene
+// red hacia Postgres, asi que falla. force-dynamic le dice a Next: no
+// la generes en build-time, generala en cada visita real (en el
+// servidor, cuando la app ya esta corriendo y si tiene acceso a la DB).
+// Bonus: esto tambien es lo que hace que publicar algo nuevo desde el
+// futuro panel de Admin se vea de inmediato, sin tener que redeployar.
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
   // await directo: el servidor espera este dato antes de seguir.
   const posts = await serviceLocator.postQueryService.getAll();

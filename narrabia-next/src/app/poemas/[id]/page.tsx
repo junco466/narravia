@@ -10,6 +10,9 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+// Ver la explicación completa en app/page.tsx.
+export const dynamic = 'force-dynamic';
+
 // generateMetadata corre en el servidor, ANTES de mandar la página.
 // Esto es lo que resuelve el problema de SEO que hablamos al principio:
 // cada poema tiene su propio <title> y <meta description> reales en el

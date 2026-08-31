@@ -5,6 +5,9 @@ import { CategoryIntro } from '@/presentation/components/CategoryIntro/CategoryI
 import { NovelCard } from '@/presentation/components/NovelCard/NovelCard';
 import styles from './page.module.css';
 
+// Ver la explicación completa en app/page.tsx.
+export const dynamic = 'force-dynamic';
+
 export default async function NovelasPage() {
   // getNovelSummaries() agrupa los capítulos por serie (seriesSlug),
   // esa lógica de agrupación vive en PostQueryService y no cambió nada.

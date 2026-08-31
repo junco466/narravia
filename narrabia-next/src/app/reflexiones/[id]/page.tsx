@@ -9,6 +9,9 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+// Ver la explicación completa en app/page.tsx.
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
   const post = await getCachedPostById(id);

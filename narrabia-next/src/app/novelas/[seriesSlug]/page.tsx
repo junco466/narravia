@@ -11,6 +11,9 @@ interface PageProps {
   params: Promise<{ seriesSlug: string }>;
 }
 
+// Ver la explicación completa en app/page.tsx.
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { seriesSlug } = await params;
   const novel = await getCachedNovelBySlug(seriesSlug);

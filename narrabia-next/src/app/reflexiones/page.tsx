@@ -3,6 +3,9 @@
 
 import { PostsByTypeView } from '@/presentation/components/PostsByType/PostsByTypeView';
 
+// Ver la explicación completa en app/page.tsx.
+export const dynamic = 'force-dynamic';
+
 export default function ReflexionesPage() {
   return <PostsByTypeView type="reflexion" />;
 }

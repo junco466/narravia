@@ -3,6 +3,10 @@
 
 import { PostsByTypeView } from '@/presentation/components/PostsByType/PostsByTypeView';
 
+// Ver la explicación completa en app/page.tsx: sin esto, el build
+// intenta leer la base de datos en build-time y falla.
+export const dynamic = 'force-dynamic';
+
 export default function PoemasPage() {
   return <PostsByTypeView type="poema" />;
 }
