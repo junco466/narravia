@@ -5,7 +5,7 @@
 // llama a la función que le dieron con (prevState, formData), como
 // cualquier otra Server Action.
 import { notFound } from 'next/navigation';
-import { getPostForAdmin } from '@/lib/admin/posts';
+import { getPostForAdmin, listNovelSeries } from '@/lib/admin/posts';
 import { updatePost } from '@/app/admin/(protected)/posts/actions';
 import { PostForm } from '@/presentation/components/admin/PostForm';
 
@@ -15,7 +15,7 @@ interface PageProps {
 
 export default async function EditPostPage({ params }: PageProps) {
   const { id } = await params;
-  const post = await getPostForAdmin(id);
+  const [post, existingSeries] = await Promise.all([getPostForAdmin(id), listNovelSeries()]);
 
   if (!post) {
     notFound();
@@ -24,7 +24,12 @@ export default async function EditPostPage({ params }: PageProps) {
   return (
     <div>
       <h1>Editar post</h1>
-      <PostForm action={updatePost.bind(null, id)} initialPost={post} submitLabel="Guardar cambios" />
+      <PostForm
+        action={updatePost.bind(null, id)}
+        initialPost={post}
+        submitLabel="Guardar cambios"
+        existingSeries={existingSeries}
+      />
     </div>
   );
 }

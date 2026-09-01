@@ -3,11 +3,16 @@
 // JavaScript: al elegir tipo/estado y darle a "Filtrar", el navegador
 // navega a /admin?type=poema&status=draft, y esta misma página lee
 // esos valores de "searchParams" para decidir qué mostrar.
+import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { listPostsForAdmin } from '@/lib/admin/posts';
 import type { PostStatus, PostType } from '@/domain/models/post';
 import { DeletePostButton } from '@/presentation/components/admin/DeletePostButton';
 import { formatDate } from '@/presentation/utils/formatDate';
+// El mismo mapeo tipo -> color que ya usan PostCard y MarkdownArticle
+// en el sitio público — así el color de "Poema" es el mismo en todos
+// lados, en vez de inventar una paleta nueva solo para el admin.
+import { getPostTypeMeta } from '@/presentation/utils/postTypeMeta';
 import styles from './page.module.css';
 
 interface PageProps {
@@ -78,7 +83,14 @@ export default async function AdminHomePage({ searchParams }: PageProps) {
             {posts.map((post) => (
               <tr key={post.id}>
                 <td>{post.title}</td>
-                <td>{TYPE_LABELS[post.type]}</td>
+                <td>
+                  <span
+                    className={styles.typeBadge}
+                    style={{ '--type-accent': `var(${getPostTypeMeta(post.type).accentVar})` } as CSSProperties}
+                  >
+                    {TYPE_LABELS[post.type]}
+                  </span>
+                </td>
                 <td>
                   <span className={`${styles.statusBadge} ${post.status === 'published' ? styles.published : styles.draft}`}>
                     {STATUS_LABELS[post.status]}

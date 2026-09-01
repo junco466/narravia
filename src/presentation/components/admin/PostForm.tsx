@@ -13,17 +13,24 @@ import { useActionState, useState } from 'react';
 import type { Post, PostStatus, PostType } from '@/domain/models/post';
 import { MarkdownArticle } from '@/presentation/components/MarkdownArticle/MarkdownArticle';
 import type { PostFormState } from '@/app/admin/(protected)/posts/actions';
+// "import type" desaparece por completo al compilar — es solo para
+// que TypeScript conozca la forma del dato, no arrastra el archivo
+// real (que tiene 'server-only') al paquete que llega al navegador.
+import type { NovelSeriesOption } from '@/lib/admin/posts';
 import styles from './PostForm.module.css';
+
+const NEW_SERIES_VALUE = '__new__';
 
 interface PostFormProps {
   action: (prevState: PostFormState, formData: FormData) => Promise<PostFormState>;
   initialPost?: Post;
   submitLabel: string;
+  existingSeries: NovelSeriesOption[];
 }
 
 const initialState: PostFormState = {};
 
-export const PostForm = ({ action, initialPost, submitLabel }: PostFormProps) => {
+export const PostForm = ({ action, initialPost, submitLabel, existingSeries }: PostFormProps) => {
   const [state, formAction, pending] = useActionState(action, initialState);
 
   // Estado "espejo" de los campos que afectan al preview. No hace
@@ -34,6 +41,22 @@ export const PostForm = ({ action, initialPost, submitLabel }: PostFormProps) =>
   const [content, setContent] = useState(initialPost?.content ?? '');
   const [coverQuote, setCoverQuote] = useState(initialPost?.coverQuote ?? '');
 
+  // Serie: ¿el post que estamos editando pertenece a una serie que
+  // sigue existiendo en la lista? Si sí, arrancamos en modo "elegir
+  // de la lista". Si no hay ninguna serie todavia, no tiene sentido
+  // mostrar un selector vacio — arrancamos directo en "nueva serie".
+  const initialSeriesIsKnown = existingSeries.some((s) => s.seriesSlug === initialPost?.seriesSlug);
+  const [seriesMode, setSeriesMode] = useState<'existing' | 'new'>(() => {
+    if (initialPost?.seriesSlug) return initialSeriesIsKnown ? 'existing' : 'new';
+    return existingSeries.length > 0 ? 'existing' : 'new';
+  });
+  const [seriesSlug, setSeriesSlug] = useState(
+    initialPost?.seriesSlug ?? existingSeries[0]?.seriesSlug ?? '',
+  );
+  const [seriesTitle, setSeriesTitle] = useState(
+    initialPost?.seriesTitle ?? existingSeries[0]?.seriesTitle ?? '',
+  );
+
   const previewPost: Post = {
     id: 'preview',
     title: title || 'Título del post',
@@ -43,8 +66,8 @@ export const PostForm = ({ action, initialPost, submitLabel }: PostFormProps) =>
     coverQuote: coverQuote || undefined,
     status: initialPost?.status ?? 'draft',
     tags: initialPost?.tags ?? [],
-    seriesSlug: initialPost?.seriesSlug,
-    seriesTitle: initialPost?.seriesTitle,
+    seriesSlug: seriesSlug || undefined,
+    seriesTitle: seriesTitle || undefined,
     chapterNumber: initialPost?.chapterNumber,
     chapterTitle: initialPost?.chapterTitle,
   };
@@ -83,16 +106,65 @@ export const PostForm = ({ action, initialPost, submitLabel }: PostFormProps) =>
         </div>
 
         {type === 'novela' ? (
+          <div className={styles.field}>
+            <span>Serie</span>
+            <select
+              value={seriesMode === 'new' ? NEW_SERIES_VALUE : seriesSlug}
+              onChange={(event) => {
+                const value = event.target.value;
+                if (value === NEW_SERIES_VALUE) {
+                  setSeriesMode('new');
+                  setSeriesSlug('');
+                  setSeriesTitle('');
+                  return;
+                }
+                setSeriesMode('existing');
+                setSeriesSlug(value);
+                setSeriesTitle(existingSeries.find((s) => s.seriesSlug === value)?.seriesTitle ?? '');
+              }}
+            >
+              {existingSeries.map((series) => (
+                <option key={series.seriesSlug} value={series.seriesSlug}>
+                  {series.seriesTitle}
+                </option>
+              ))}
+              <option value={NEW_SERIES_VALUE}>+ Nueva serie</option>
+            </select>
+          </div>
+        ) : null}
+
+        {type === 'novela' && seriesMode === 'new' ? (
           <div className={styles.row}>
             <label className={styles.field}>
-              <span>Slug de la serie (ej. despertando)</span>
-              <input name="seriesSlug" type="text" defaultValue={initialPost?.seriesSlug ?? ''} />
+              <span>Slug de la serie nueva (ej. despertando)</span>
+              <input
+                name="seriesSlug"
+                type="text"
+                value={seriesSlug}
+                onChange={(event) => setSeriesSlug(event.target.value)}
+              />
             </label>
             <label className={styles.field}>
-              <span>Título de la serie</span>
-              <input name="seriesTitle" type="text" defaultValue={initialPost?.seriesTitle ?? ''} />
+              <span>Título de la serie nueva</span>
+              <input
+                name="seriesTitle"
+                type="text"
+                value={seriesTitle}
+                onChange={(event) => setSeriesTitle(event.target.value)}
+              />
             </label>
           </div>
+        ) : null}
+
+        {/* Cuando eliges una serie existente, el slug/título no se
+            escriben a mano — van como campos ocultos, ya fijados por
+            la selección de arriba. Así el nombre siempre coincide
+            exactamente con los capítulos anteriores de esa serie. */}
+        {type === 'novela' && seriesMode === 'existing' ? (
+          <>
+            <input type="hidden" name="seriesSlug" value={seriesSlug} />
+            <input type="hidden" name="seriesTitle" value={seriesTitle} />
+          </>
         ) : null}
 
         {type === 'novela' ? (

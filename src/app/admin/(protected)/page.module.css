@@ -73,11 +73,21 @@
   color: var(--text-primary);
 }
 
-.statusBadge {
+.statusBadge,
+.typeBadge {
   display: inline-block;
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
   font-size: 0.78rem;
+}
+
+/* El color real llega por la variable --type-accent, puesta inline
+   en cada fila (var(--accent) para poema, var(--accent-2) para
+   novela, var(--accent-3) para reflexion) — el mismo color que ya
+   usan las tarjetas del sitio público para cada tipo. */
+.typeBadge {
+  color: var(--type-accent);
+  background: color-mix(in srgb, var(--type-accent) 18%, transparent);
 }
 
 .published {

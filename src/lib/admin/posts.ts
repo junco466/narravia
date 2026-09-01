@@ -74,6 +74,29 @@ export const listPostsForAdmin = async (filters: ListFilters = {}): Promise<Post
   return rows.map(toDomainPost);
 };
 
+export interface NovelSeriesOption {
+  seriesSlug: string;
+  seriesTitle: string;
+}
+
+// Lista las series de novela que ya existen, para que el formulario
+// ofrezca un selector en vez de dejarte re-escribir el slug a mano en
+// cada capítulo nuevo (un typo ahí crearía una serie "huérfana" sin
+// que nadie lo note).
+export const listNovelSeries = async (): Promise<NovelSeriesOption[]> => {
+  const rows = await prisma.post.findMany({
+    where: { type: 'novela', seriesSlug: { not: null } },
+    distinct: ['seriesSlug'],
+    select: { seriesSlug: true, seriesTitle: true },
+    orderBy: { seriesTitle: 'asc' },
+  });
+
+  return rows.map((row) => ({
+    seriesSlug: row.seriesSlug as string,
+    seriesTitle: row.seriesTitle ?? (row.seriesSlug as string),
+  }));
+};
+
 // A diferencia de PostgresPostRepository.getPostById, esta NO lanza
 // NotFoundError — el admin decide él mismo cómo reaccionar (mostrar
 // su propia página de "no encontrado", por ejemplo).
