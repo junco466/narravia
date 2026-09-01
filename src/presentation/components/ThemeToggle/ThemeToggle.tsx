@@ -1,3 +1,5 @@
+'use client';
+
 import { useThemeStore } from '@/presentation/hooks/useThemeStore';
 import styles from '@/presentation/components/ThemeToggle/ThemeToggle.module.css';
 

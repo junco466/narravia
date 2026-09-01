@@ -1,6 +1,10 @@
+// Muestra un post completo: encabezado + cuerpo en Markdown.
+// Server Component (sin 'use client'): no tiene estado ni eventos,
+// solo transforma props en HTML — no necesita nada del navegador.
+
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { useMemo, type CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import type { Post } from '@/domain/models/post';
 import { formatDate } from '@/presentation/utils/formatDate';
 import { getReadingTime } from '@/presentation/utils/getReadingTime';
@@ -15,7 +19,9 @@ interface MarkdownArticleProps {
 export const MarkdownArticle = ({ post }: MarkdownArticleProps) => {
   const typeMeta = getPostTypeMeta(post.type);
   const isPoem = post.type === 'poema';
-  const poemColumns = useMemo(() => (isPoem ? splitPoemColumns(post.content) : null), [isPoem, post.content]);
+  // Sin useMemo: en un Server Component esto se calcula una sola vez
+  // de todos modos (no hay re-renders que memoizar).
+  const poemColumns = isPoem ? splitPoemColumns(post.content) : null;
 
   return (
     <article

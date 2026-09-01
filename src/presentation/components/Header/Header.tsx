@@ -1,5 +1,8 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/presentation/components/ThemeToggle/ThemeToggle';
 import styles from '@/presentation/components/Header/Header.module.css';
 import logo_dark from '@/assets/logo_dark.svg';
@@ -20,42 +23,46 @@ const navigation = [
 export const Header = () => {
   const theme = useThemeStore((state) => state.theme);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     setIsMenuOpen(false);
-  }, [location.pathname]);
+  }, [pathname]);
 
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <NavLink to="/" className={styles.brand}>
+        <Link href="/" className={styles.brand}>
           <img
-            src={theme === 'light' ? logo_nombre_light : logo_nombre_dark}
+            src={theme === 'light' ? logo_nombre_light.src : logo_nombre_dark.src}
             alt="Narravia"
             className={`${styles.logo} ${styles.logoDesktop}`}
           />
           <img
-            src={theme === 'light' ? logo_light : logo_dark}
+            src={theme === 'light' ? logo_light.src : logo_dark.src}
             alt="Narravia"
             className={`${styles.logo} ${styles.logoMobile}`}
           />
-        </NavLink>
+        </Link>
 
         <nav
           id="primary-navigation"
           className={`${styles.nav} ${isMenuOpen ? styles.navOpen : ''}`.trim()}
           aria-label="Navegación principal"
         >
-          {navigation.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`.trim()}
-            >
-              {item.label}
-            </NavLink>
-          ))}
+          {navigation.map((item) => {
+            const isActive = item.to === '/' ? pathname === '/' : pathname.startsWith(item.to);
+
+            return (
+              <Link
+                key={item.to}
+                href={item.to}
+                className={`${styles.link} ${isActive ? styles.active : ''}`.trim()}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className={styles.controls}>
