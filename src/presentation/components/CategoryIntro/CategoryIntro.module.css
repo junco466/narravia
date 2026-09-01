@@ -1,10 +1,13 @@
 .hero {
-  display: grid;
-  gap: 1rem;
+  /* Ya no usamos "gap" uniforme: cada elemento define su propio espacio
+     de sobra (margin-bottom), así el título queda pegado al autor y el
+     autor queda separado de la descripción, en vez de que todo tenga
+     el mismo espacio entre sí. */
   padding: 1rem 0 2rem;
 }
 
 .eyebrow {
+  margin-bottom: 1rem;
   color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.3em;
@@ -12,12 +15,32 @@
 }
 
 .title {
+  /* margin: 0 explícito porque el navegador le pone un margen por
+     defecto a los <h1> que el reset global no quita (global.css solo
+     resetea el margin-top, no el margin-bottom) — ese margen extra,
+     sumado al que teníamos antes, era justo el "doble salto" que viste. */
+  margin: 0 0 0.25rem;
   max-width: 12ch;
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   line-height: 0.95;
 }
 
+/* Mismo tamaño que ".author" en el Home (Fernando Gonzales):
+   hereda la tipografía de cuerpo (Literata) y el itálico por defecto
+   de la etiqueta <cite>, no hace falta redeclarar ninguna de las dos. */
+.author {
+  display: block;
+  margin-bottom: 3rem;
+  font-size: clamp(1.5rem, 3vw, 3rem);
+}
+
 .description {
+  /* margin-top (no margin-bottom) a propósito: en flujo normal de bloque,
+     el navegador "colapsa" (toma el mayor, no suma) el margen entre dos
+     elementos vecinos. Sin autor: title(0.25rem) vs description(3rem)
+     → gana 3rem. Con autor: author ya trae su propio 3rem abajo, así
+     que da igual, sigue siendo 3rem. Un solo valor cubre los dos casos. */
+  margin: 3rem 0 0;
   max-width: 60ch;
   color: var(--text-secondary);
   font-size: 1.05rem;

@@ -1,3 +1,5 @@
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import type { Post, PostType } from '@/domain/models/post';
 import { parseFrontMatter } from '@/infrastructure/loaders/parseFrontMatter';
 
@@ -17,11 +19,24 @@ interface FrontMatter {
   seoDescription?: string;
 }
 
-const markdownModules = import.meta.glob<string>('../../../content/**/*.md', {
-  eager: true,
-  import: 'default',
-  query: '?raw',
-});
+const CONTENT_DIR = join(process.cwd(), 'content');
+
+const readMarkdownFiles = (): Record<string, string> => {
+  const entries = readdirSync(CONTENT_DIR, { recursive: true, withFileTypes: true });
+  const modules: Record<string, string> = {};
+
+  for (const entry of entries) {
+    if (!entry.isFile() || !entry.name.endsWith('.md')) {
+      continue;
+    }
+
+    const absolutePath = join(entry.parentPath ?? entry.path, entry.name);
+    const relativePath = absolutePath.slice(process.cwd().length + 1).split('\\').join('/');
+    modules[relativePath] = readFileSync(absolutePath, 'utf-8');
+  }
+
+  return modules;
+};
 
 const detectPostType = (path: string): PostType => {
   if (path.includes('/poemas/')) {
@@ -105,10 +120,17 @@ const toPost = (path: string, rawMarkdown: string): Post => {
     chapterNumber: metadata.chapterNumber,
     chapterTitle: metadata.chapterTitle,
     seoDescription: metadata.seoDescription,
+    // Los .md no tienen estos campos — solo existen desde el Admin.
+    // El migrateContentToDb.ts es quien realmente decide "published"
+    // para el contenido que ya estaba en vivo; esto es solo para
+    // que el tipo Post quede completo mientras tanto.
+    status: 'published',
+    tags: [],
     ...seriesMetadata,
   };
 };
 
 export const loadMarkdownPosts = async (): Promise<Post[]> => {
+  const markdownModules = readMarkdownFiles();
   return Object.entries(markdownModules).map(([path, rawMarkdown]) => toPost(path, rawMarkdown));
 };

@@ -1,0 +1,73 @@
+// Este archivo es el "plano" de tu base de datos: describe qué tablas
+// existen y qué columnas tiene cada una. Prisma lee esto y genera:
+// 1. El SQL real (con `migrate`) para crear/actualizar la base de datos.
+// 2. Un cliente de TypeScript ya tipado (con `generate`) para consultarla.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+// Ya en Prisma 7: la URL de conexion NO va aqui. Para las migraciones
+// (`prisma migrate`) la toma prisma.config.ts; para el cliente en
+// tiempo de ejecucion, se le pasa explicitamente un "adapter" al
+// crear el PrismaClient (ver src/lib/prisma.ts).
+datasource db {
+  provider = "postgresql"
+}
+
+// Equivalente en SQL a: CREATE TYPE "PostType" AS ENUM ('poema', 'reflexion', 'novela');
+// Mismos 3 valores que POST_TYPES en src/domain/models/post.ts — a
+// propósito, para que la base de datos rechace cualquier tipo inválido
+// (no solo TypeScript en tiempo de compilacion).
+enum PostType {
+  poema
+  reflexion
+  novela
+}
+
+// "draft" por defecto a propósito: un post nuevo no debería quedar
+// visible en el sitio público hasta que tú decidas publicarlo. Es más
+// seguro equivocarse por "no se ve" que por "se publicó sin querer".
+enum PostStatus {
+  draft
+  published
+}
+
+// Cada campo de aquí corresponde 1:1 a la interfaz Post que ya conoces
+// (src/domain/models/post.ts). El "?" en Prisma significa lo mismo que
+// en TypeScript: la columna puede ser NULL (opcional).
+model Post {
+  // No es un id autonumerico (1, 2, 3...): seguimos usando el mismo
+  // slug legible que ya usan las URLs (ej. "noche-sin-ruido"), para no
+  // romper ningun link existente al migrar de archivos a base de datos.
+  id             String    @id
+  title          String
+  type           PostType
+  content        String
+  createdAt      DateTime  @default(now())
+  excerpt        String?
+  coverQuote     String?
+  slug           String?
+  updatedAt      DateTime?
+  order          Int?
+  seriesSlug     String?
+  seriesTitle    String?
+  chapterNumber  Int?
+  chapterTitle   String?
+  seoDescription String?
+
+  // Nuevos para el panel de Admin. tags usa el tipo array nativo de
+  // Postgres (String[]) — sin tabla aparte, porque no necesitamos
+  // filtrar/reusar tags entre posts, solo mostrarlos como etiquetas.
+  status PostStatus @default(draft)
+  tags   String[]   @default([])
+
+  // Los indices aceleran las consultas mas frecuentes: filtrar por tipo
+  // (/poemas, /reflexiones), por estado (ocultar borradores), y
+  // agrupar capitulos de una misma novela.
+  @@index([type])
+  @@index([status])
+  @@index([seriesSlug])
+  @@map("posts")
+}

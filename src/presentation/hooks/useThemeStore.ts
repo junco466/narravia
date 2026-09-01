@@ -5,13 +5,10 @@ export type ThemeMode = 'light' | 'dark';
 interface ThemeState {
   theme: ThemeMode;
   toggleTheme: () => void;
+  setTheme: (theme: ThemeMode) => void;
 }
 
-const getInitialTheme = (): ThemeMode => {
-  if (typeof window === 'undefined') {
-    return 'light';
-  }
-
+const detectPreferredTheme = (): ThemeMode => {
   const persisted = window.localStorage.getItem('literary-theme');
 
   if (persisted === 'light' || persisted === 'dark') {
@@ -22,12 +19,15 @@ const getInitialTheme = (): ThemeMode => {
 };
 
 export const useThemeStore = create<ThemeState>((set, get) => ({
-  theme: getInitialTheme(),
+  theme: 'light',
   toggleTheme: () => {
     const nextTheme: ThemeMode = get().theme === 'light' ? 'dark' : 'light';
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('literary-theme', nextTheme);
-    }
+    window.localStorage.setItem('literary-theme', nextTheme);
     set({ theme: nextTheme });
   },
+  setTheme: (theme) => set({ theme }),
 }));
+
+export const detectAndApplyPreferredTheme = () => {
+  useThemeStore.getState().setTheme(detectPreferredTheme());
+};
