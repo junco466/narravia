@@ -63,6 +63,11 @@ model Post {
   status PostStatus @default(draft)
   tags   String[]   @default([])
 
+  // Relaciones inversas: no crean columnas en "posts", solo le dicen a
+  // Prisma que desde un Post puede pedir sus likes y comentarios.
+  likes    PostLike[]
+  comments Comment[]
+
   // Los indices aceleran las consultas mas frecuentes: filtrar por tipo
   // (/poemas, /reflexiones), por estado (ocultar borradores), y
   // agrupar capitulos de una misma novela.
@@ -70,4 +75,56 @@ model Post {
   @@index([status])
   @@index([seriesSlug])
   @@map("posts")
+}
+
+// Un "me gusta". No hay cuentas de usuario, así que identificamos al
+// visitante con una cookie anónima (visitorId, un UUID al azar).
+// @@unique([postId, visitorId]) es lo que evita likes repetidos: la
+// BASE DE DATOS rechaza un segundo like del mismo visitante al mismo
+// post, aunque el código tuviera un error.
+// onDelete: Cascade = si borras el post, sus likes se borran solos.
+model PostLike {
+  id        Int      @id @default(autoincrement())
+  postId    String
+  visitorId String
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, visitorId])
+  @@map("post_likes")
+}
+
+// Un comentario. Se publica de inmediato (sin aprobación previa); la
+// moderación es posterior: tú los revisas en /admin/comments y borras
+// los que no quieras. visitorId permite limitar cuántos comentarios
+// seguidos puede dejar la misma persona (anti-spam).
+model Comment {
+  id          Int      @id @default(autoincrement())
+  postId      String
+  authorName  String
+  authorEmail String?
+  body        String
+  visitorId   String
+  createdAt   DateTime @default(now())
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@index([visitorId, createdAt])
+  @@map("comments")
+}
+
+// Mensaje enviado desde el formulario de /contacto. A diferencia de los
+// comentarios, NO es público: solo tú lo ves, en /admin/messages.
+// El correo es obligatorio porque es la forma de responderle a la persona.
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  body      String
+  visitorId String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([visitorId, createdAt])
+  @@map("contact_messages")
 }

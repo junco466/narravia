@@ -37,3 +37,19 @@
 .main {
   padding: 2rem clamp(1.25rem, 4vw, 3rem);
 }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navLink {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.navLink:hover {
+  color: var(--accent);
+}

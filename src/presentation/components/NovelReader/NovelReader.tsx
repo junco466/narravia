@@ -8,6 +8,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import type { NovelSummary } from '@/domain/models/post';
+import { PostEngagement } from '@/presentation/components/PostEngagement/PostEngagement';
 import { MarkdownArticle } from '@/presentation/components/MarkdownArticle/MarkdownArticle';
 import styles from '@/presentation/components/NovelReader/NovelReader.module.css';
 
@@ -51,7 +52,16 @@ export const NovelReader = ({ novel }: NovelReaderProps) => {
         </ol>
       </aside>
 
-      <section className={styles.reader}>{activeChapter ? <MarkdownArticle post={activeChapter} /> : null}</section>
+      <section className={styles.reader}>
+        {activeChapter ? (
+          <>
+            <MarkdownArticle post={activeChapter} />
+            {/* key = id del capítulo: al cambiar de capítulo React
+                reinicia el bloque y carga los likes/comentarios nuevos. */}
+            <PostEngagement key={activeChapter.id} postId={activeChapter.id} />
+          </>
+        ) : null}
+      </section>
     </div>
   );
 };

@@ -3,6 +3,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getCachedPostById } from '@/lib/getCachedPost';
+import { PostEngagement } from '@/presentation/components/PostEngagement/PostEngagement';
 import { MarkdownArticle } from '@/presentation/components/MarkdownArticle/MarkdownArticle';
 
 interface PageProps {
@@ -34,5 +35,10 @@ export default async function ReflexionDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  return <MarkdownArticle post={post} />;
+  return (
+    <>
+      <MarkdownArticle post={post} />
+      <PostEngagement postId={post.id} />
+    </>
+  );
 }

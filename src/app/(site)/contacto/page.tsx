@@ -2,6 +2,7 @@
 // solo se le agregó metadata para SEO.
 
 import type { Metadata } from 'next';
+import { ContactForm } from '@/presentation/components/ContactForm/ContactForm';
 import styles from './page.module.css';
 
 const CONTACT_EMAIL = 'jsbalbin466@gmail.com';
@@ -18,7 +19,7 @@ export default function ContactoPage() {
       <h1 className={styles.title}>Un canal directo, mientras el resto toma forma.</h1>
       <div className={styles.card}>
         <p>
-          Por ahora, el correo es la única vía de contacto. Las redes sociales están en camino — cuando estén
+          Escríbeme con el formulario o directo al correo. Las redes sociales están en camino — cuando estén
           listas, aparecerán aquí también.
         </p>
         <ul className={styles.list}>
@@ -30,6 +31,7 @@ export default function ContactoPage() {
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
           </li>
         </ul>
+        <ContactForm />
       </div>
     </section>
   );

@@ -1,0 +1,146 @@
+.wrapper {
+  max-width: 720px;
+  margin: 3rem auto 0;
+  padding: 2rem 0 3rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.like {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.like:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.liked {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.count {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.heading {
+  margin: 2rem 0 1rem;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+}
+
+.form {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.field input,
+.field textarea {
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+/* Fuera de pantalla (no display:none, que algunos bots detectan). */
+.trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.error {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+.submit {
+  justify-self: start;
+  padding: 0.65rem 1.3rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.6;
+}
+
+.empty {
+  color: var(--text-muted);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.comment {
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.commentMeta {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.commentMeta strong {
+  color: var(--text-primary);
+}
+
+.commentBody {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--text-primary);
+}
+
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

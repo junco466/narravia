@@ -6,6 +6,7 @@
 // verifySession() aquí es la segunda revisión (defensa en profundidad):
 // el proxy.ts ya redirige antes de llegar hasta acá, pero si alguien
 // encontrara la forma de saltarse el proxy, esta línea igual lo frena.
+import Link from 'next/link';
 import { verifySession } from '@/lib/auth/dal';
 import { logout } from './actions';
 import styles from './layout.module.css';
@@ -16,7 +17,12 @@ export default async function ProtectedAdminLayout({ children }: { children: Rea
   return (
     <div className={styles.shell}>
       <header className={styles.bar}>
-        <span className={styles.label}>Panel de administración</span>
+        <nav className={styles.nav}>
+          <span className={styles.label}>Panel de administración</span>
+          <Link href="/admin" className={styles.navLink}>Posts</Link>
+          <Link href="/admin/comments" className={styles.navLink}>Comentarios</Link>
+          <Link href="/admin/messages" className={styles.navLink}>Mensajes</Link>
+        </nav>
         <form action={logout}>
           <button type="submit" className={styles.logout}>
             Cerrar sesión

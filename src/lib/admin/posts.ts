@@ -45,6 +45,32 @@ export const slugify = (title: string): string =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
+const EXCERPT_MAX_LENGTH = 180;
+
+// Genera un extracto a partir del contenido markdown cuando el autor
+// no escribió uno. Cómo lo hace, paso a paso:
+//  1. Quita símbolos de markdown (# > * _ ` -) para que el extracto no
+//     muestre "## Título" ni "**negritas**" como texto crudo.
+//  2. Colapsa saltos de línea y espacios repetidos en uno solo (un
+//     poema de varias estrofas queda como una sola línea corrida).
+//  3. Si el texto pasa de 180 caracteres, lo corta ahí, retrocede hasta
+//     el último espacio para no partir una palabra por la mitad y
+//     agrega "…" al final.
+// Es la misma idea del loader viejo de .md, pero con el corte limpio.
+export const deriveExcerpt = (content: string): string => {
+  const plain = content
+    .replace(/[#>*_`\-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (plain.length <= EXCERPT_MAX_LENGTH) return plain;
+
+  const cut = plain.slice(0, EXCERPT_MAX_LENGTH);
+  const lastSpace = cut.lastIndexOf(' ');
+  // Si no hay espacio (texto sin palabras separadas), cortamos en seco.
+  return `${(lastSpace > 0 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
+};
+
 export interface PostFormInput {
   title: string;
   type: PostType;
@@ -124,7 +150,8 @@ export const createPostRecord = async (input: PostFormInput): Promise<Post> => {
       title: input.title,
       type: input.type,
       content: input.content,
-      excerpt: input.excerpt || undefined,
+      // Si el autor no escribió extracto, se genera desde el contenido.
+      excerpt: input.excerpt || deriveExcerpt(input.content),
       coverQuote: input.coverQuote || undefined,
       seoDescription: input.seoDescription || undefined,
       status: input.status,
@@ -146,7 +173,9 @@ export const updatePostRecord = async (id: string, input: PostFormInput): Promis
       title: input.title,
       type: input.type,
       content: input.content,
-      excerpt: input.excerpt || null,
+      // Al editar también: si lo dejas vacío, se regenera desde el
+      // contenido actual (así no queda desactualizado tras editar).
+      excerpt: input.excerpt || deriveExcerpt(input.content),
       coverQuote: input.coverQuote || null,
       seoDescription: input.seoDescription || null,
       status: input.status,
